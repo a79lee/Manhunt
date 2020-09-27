@@ -9,27 +9,29 @@ local GameSettings = require(ModuleScripts:WaitForChild("GameSettings"))
 
 local LobbyState = {}
 LobbyState.__index = LobbyState
+function LobbyState.log(text)
+	print("LobbyState: " .. text)
+end
 function LobbyState:update()
 	wait(GameSettings.intermissionDuration)
 	if #self.players < GameSettings.minimumPlayers then
-		print ("waiting for min players")
+		LobbyState.log("waiting for more players")
 		return self
 	else
-		print ("starting new game")
+		LobbyState.log("starting new game")
 		local GameState = require(ModuleScripts:WaitForChild("GameState"))
 		return GameState.new(self.players)
 	end
 end
 function LobbyState:onPlayerAdded(player)
-	print ("Player added to lobby")
+	LobbyState.log(player:GetFullName() .. " joined the lobby")
 	table.insert(self.players, player)
 end
 function LobbyState:onPlayerRemoving(player)
-	print ("Player removed from lobby")
+	LobbyState.log(player:GetFullName() .. " left the lobby")
 	table.remove(self.players, player)
 end
 function LobbyState:onTouch(player, part)
-    print(player:GetFullName() .. " was touched by " .. part:GetFullName())
 end
 function LobbyState:init(players)
 	print ("Lobby Init")
