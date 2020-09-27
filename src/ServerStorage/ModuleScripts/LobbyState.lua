@@ -14,7 +14,7 @@ function LobbyState:update()
 	if #self.players < GameSettings.minimumPlayers then
 		return self
 	else
-		return Game:new(self.players)
+		return GameState:new(self.players)
 	end
 end
 function LobbyState:onPlayerAdded(player)
