@@ -31,7 +31,7 @@ function GameState:onPlayerRemoving(player)
     -- must be careful to adjust the counts accordingly so that this can
     -- happen on the next update.
     print ("Game State Remove Player")
-    if player.Team == Teams.Predator then
+    if player.Team == Teams.Hunter then
         self.predatorCount -= 1
     elseif player.Team == Teams.Prey then
         self.preyCount -= 1
@@ -41,9 +41,9 @@ end
 function GameState:onTouch(player, other)
     -- If a predator touches a prey then the prey switches teams.
     print(player:GetFullName() .. " was touched by " .. other:GetFullName())
-    if player.Team == Teams.Predator and
+    if player.Team == Teams.Hunter and
        other.Team == Teams.Prey then
-        other.Team = Teams.Predator
+        other.Team = Teams.Hunter
         self.preyCount -= 1
         self.predatorCount += 1
     end
@@ -53,7 +53,7 @@ function GameState:init(players)
     print ("Game State Init")
     local k = math.random(1, #players)
     for i, player in pairs(players) do
-        player.Team = (i == k) and Teams.Predator or Teams.Prey
+        player.Team = (i == k) and Teams.Hunter or Teams.Prey
         player.Neutral = false
     end
     self.players = players
