@@ -52,8 +52,8 @@ function GameState:init(players)
         player.Neutral = false
     end
     self.players = players
-    self.predatorCount = #players - 1
-    self.preyCount = 1
+    self.preyCount = #players - 1
+    self.predatorCount = 1
 end
 function GameState:new(copy, players)
 	copy = copy or {}
