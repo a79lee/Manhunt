@@ -13,10 +13,9 @@ local GameState = {}
 function GameState:update()
     wait(GameSettings.updateInterval)
     if self.predatorCount == 0 or self.preyCount == 0 then
-        print ("New Game")
+        print ("Return to Lobby")
         return LobbyState.new()
     else
-        print ("Waiting for players")
         return self
     end
 end

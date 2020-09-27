@@ -12,8 +12,10 @@ local LobbyState = {}
 function LobbyState:update()
 	wait(GameSettings.intermissionDuration)
 	if #self.players < GameSettings.minimumPlayers then
+		print ("waiting for min players")
 		return self
 	else
+		print ("starting new game")
 		return GameState:new(self.players)
 	end
 end

@@ -19,9 +19,11 @@ Players.PlayerAdded:Connect(function(player)
 			end
 		end)
 	end)
+	print("Player Added")
 	state:onPlayerAdded(player)
 end)
 Players.PlayerRemoving:Connect(function(player)
+	print ("player left")
 	state:onPlayerRemoved(player)
 end)
 
