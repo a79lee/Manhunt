@@ -12,13 +12,12 @@ local state = Lobby:new()
 -- Pass through events to state
 Players.PlayerAdded:Connect(function(player)
 	player.CharacterAdded:Connect(function(character)
-		for i, child in pairs(character:GetChildren()) do
-			if child:IsA("BasePart") then
-				child.Touched:Connect(function(part)
-					state:onTouch(player, part)
-				end)
+		character:WaitForChild("HumanoidRootPart").Touched:Connect(function(part)
+			local otherPlayer = Players:GetPlayerFromCharacter(part.Parent)
+			if otherPlayer and otherPlayer ~= player then
+				state:onTouch(player, otherPlayer)
 			end
-		end
+		end)
 	end)
 	state:onPlayerAdded(player)
 end)
