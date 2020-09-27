@@ -59,11 +59,8 @@ function GameState:init(players)
     self.preyCount = #players - 1
     self.predatorCount = 1
 end
-function GameState:new(copy, players)
-    print ("Game State New")
-	copy = copy or {}
-	setmetatable(copy, self)
-	self.__index = self
+function GameState.new(players)
+	self = setmetatable({}, GameState)
 	self:init(players)
 	return copy
 end

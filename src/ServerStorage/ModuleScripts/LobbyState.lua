@@ -16,7 +16,7 @@ function LobbyState:update()
 	else
 		print ("starting new game")
 		local GameState = require(ModuleScripts:WaitForChild("GameState"))
-		return GameState:new(self.players)
+		return GameState.new(self.players)
 	end
 end
 function LobbyState:onPlayerAdded(player)
@@ -38,11 +38,8 @@ function LobbyState:init(players)
 	end
 	self.players = players
 end
-function LobbyState:new(copy)
-	print ("New lobby")
-	copy = copy or {}
-	setmetatable(copy, self)
-	self.__index = self
+function LobbyState.new()
+	self = setmetatable({}, LobbyState)
 	self:init(Players:GetPlayers())
 	return copy
 end
