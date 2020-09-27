@@ -17,10 +17,11 @@ local activePlayers = {}
 function PlayerManager.sendPlayersToMatch()
 	print("Sending players to match")
 
+	local players = Players:GetPlayers()
 	local n = table.getn(players)
 	local k = math.random(1, n)
 
-	for i, player in pairs(Players:GetPlayers()) do
+	for i, player in pairs(players) do
 		table.insert(activePlayers, player)
 		player.Team = {Teams.Prey, Teams.Predator}[i == k]
 		player.RespawnLocation = workspace.SpawnLocation
@@ -31,6 +32,7 @@ end
 -- Events
 Players.PlayerAdded:Connect(function(player)
 	player.RespawnLocation = lobbySpawn
+
 end)
 
 return PlayerManager
