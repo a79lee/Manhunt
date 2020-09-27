@@ -15,7 +15,7 @@ function LobbyState:update()
 		return self
 	else
 		print ("starting new game")
-		local Game = require(ModuleScripts:WaitForChild("GameState"))
+		local GameState = require(ModuleScripts:WaitForChild("GameState"))
 		return GameState:new(self.players)
 	end
 end
