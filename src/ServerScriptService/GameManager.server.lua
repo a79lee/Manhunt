@@ -1,26 +1,19 @@
 -- Services
 local ServerStorage = game:GetService("ServerStorage")
 local Players = game:GetService("Players")
+local Teams = game:GetService("Teams")
 
 -- Module Scripts
-local moduleScripts = ServerStorage:WaitForChild("ModuleScripts")
-local matchManager = require(moduleScripts:WaitForChild("MatchManager"))
-local gameSettings = require(moduleScripts:WaitForChild("GameSettings"))
+local ModuleScripts = ServerStorage:WaitForChild("ModuleScripts")
+local Lobby = require(ModuleScripts:WaitForChild("Lobby"))
 
-while true do
-	-- wait for there to be enough players
-	repeat
-		print ("starting intermission")
-		print (#Players:GetPlayers())
-		wait(gameSettings.intermissionDuration)
-	until #Players:GetPlayers() >= gameSettings.minimumPlayers 
+local state = Lobby.new()
 
-	print ("intermission done")
-	wait (gameSettings.transitionStart)
-	
-	-- setup phase
-	--matchManager.preparePlayers()
-	matchManager.prepareGame()
+-- Pass through events to state
+Players.PlayerAdded:Connect(function(player) state.onPlayerAdded(player) end)
+Players.PlayerRemoved:Connect(function(player) state.onPlayerRemoved(player) end)
+
+-- Main loop: update state on interval
+while state do
+	state = state.update()
 end
-
--- https://education.roblox.com/en-us/resources/battle-royale/managing-players
