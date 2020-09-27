@@ -18,15 +18,18 @@ function LobbyState:update()
 	end
 end
 function LobbyState:onPlayerAdded(player)
+	print ("Player added to lobby")
 	table.insert(self.players, player)
 end
 function LobbyState:onPlayerRemoving(player)
+	print ("Player removed from lobby")
 	table.remove(self.players, player)
 end
 function LobbyState:onTouch(player, part)
     print(player:GetFullName() .. " was touched by " .. part:GetFullName())
 end
 function LobbyState:init(players)
+	print ("Lobby Init")
 	for player in players do
 		player.Neutral = true
 		player.Team = nil
@@ -34,6 +37,7 @@ function LobbyState:init(players)
 	self.players = players
 end
 function LobbyState:new(copy)
+	print ("New lobby")
 	copy = copy or {}
 	setmetatable(copy, self)
 	self.__index = self
