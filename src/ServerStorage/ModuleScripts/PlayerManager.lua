@@ -13,37 +13,24 @@ local lobbySpawn = workspace.Lobby.StartSpawn
 -- Player Variables
 local activePlayers = {}
 
--- Local Functions
-local function onPlayerJoin(player)
-	player.RespawnLocation = lobbySpawn
-end
-
-local function preparePlayer(player, whichSpawn)
-	player.RespawnLocation = whichSpawn
-	player:LoadCharacter()
-end
 -- Module Functions
-function PlayerManager.pickIt()
-	-- For now this is just random, but we should probably
-	-- make the first person caught be 'it' the next time
-	local n = table.getn(activePlayers)
-	local k = math.random(1, n)
-	for player in activePlayers do
-		player.Team = Teams.Prey
-	end
-	activePlayers[k].Team = Teams.Predator
-end
 function PlayerManager.sendPlayersToMatch()
 	print("Sending players to match")
 
-	for playerKey, whichPlayer in pairs(Players:GetPlayers()) do
-		table.insert(activePlayers, whichPlayer)
-		preparePlayer(whichPlayer, workspace.SpawnLocation)
+	local n = table.getn(players)
+	local k = math.random(1, n)
+
+	for i, player in pairs(Players:GetPlayers()) do
+		table.insert(activePlayers, player)
+		player.Team = {Teams.Prey, Teams.Predator}[i == k]
+		player.RespawnLocation = workspace.SpawnLocation
+		player:LoadCharacter()
 	end
-	pickIt()
 end
 
 -- Events
-Players.PlayerAdded:Connect(onPlayerJoin)
+Players.PlayerAdded:Connect(function(player)
+	player.RespawnLocation = lobbySpawn
+end)
 
 return PlayerManager
