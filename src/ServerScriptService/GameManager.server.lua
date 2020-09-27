@@ -5,9 +5,9 @@ local Teams = game:GetService("Teams")
 
 -- Module Scripts
 local ModuleScripts = ServerStorage:WaitForChild("ModuleScripts")
-local Lobby = require(ModuleScripts:WaitForChild("Lobby"))
+local LobbyState = require(ModuleScripts:WaitForChild("LobbyState"))
 
-local state = Lobby:new()
+local state = LobbyState:new()
 
 -- Pass through events to state
 Players.PlayerAdded:Connect(function(player)

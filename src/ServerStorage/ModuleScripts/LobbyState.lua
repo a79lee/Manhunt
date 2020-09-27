@@ -6,31 +6,38 @@ local ServerStorage = game:GetService("ServerStorage")
 -- Module Scripts
 local ModuleScripts = ServerStorage:WaitForChild("ModuleScripts")
 local GameSettings = require(ModuleScripts:WaitForChild("GameSettings"))
+local GameState = require(ModuleScripts:WaitForChild("GameState"))
 
-
-local Lobby = {}
-function Lobby:update()
+local LobbyState = {}
+function LobbyState:update()
 	wait(GameSettings.intermissionDuration)
 	if #self.players < GameSettings.minimumPlayers then
 		return self
 	else
-		return self --Game.new() TODO
+		return Game:new(self.players)
 	end
 end
-function Lobby:onPlayerAdded(player)
+function LobbyState:onPlayerAdded(player)
 	table.insert(self.players, player)
 end
-function Lobby:onPlayerRemoving(player)
+function LobbyState:onPlayerRemoving(player)
 	table.remove(self.players, player)
 end
-function Lobby:onTouch(player, part)
+function LobbyState:onTouch(player, part)
     print(player:GetFullName() .. " was touched by " .. part:GetFullName())
 end
-function Lobby:new(copy)
+function LobbyState:init(players)
+	for player in players do
+		player.Neutral = true
+		player.Team = nil
+	end
+	self.players = players
+end
+function LobbyState:new(copy)
 	copy = copy or {}
 	setmetatable(copy, self)
 	self.__index = self
-	self.players = Players:GetPlayers()
+	self:init(Players:GetPlayers())
 	return copy
 end
-return Lobby
+return LobbyState
