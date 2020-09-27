@@ -9,22 +9,28 @@ local GameSettings = require(ModuleScripts:WaitForChild("GameSettings"))
 
 
 local Lobby = {}
-function Lobby.new()
-	local self = setmetatable({}, Lobby)
-	self.players = Players.GetPlayers()
-	return self
-end
-function Lobby.update(self)
+function Lobby:update()
 	wait(GameSettings.intermissionDuration)
 	if #self.players < GameSettings.minimumPlayers then
 		return self
 	else
-		return nil --Game.new() TODO
+		return self --Game.new() TODO
 	end
 end
-function Lobby.onPlayerAdded(self, player)
+function Lobby:onPlayerAdded(player)
 	table.insert(self.players, player)
 end
-function Lobby.onPlayerRemoved(self, player)
+function Lobby:onPlayerRemoving(player)
 	table.remove(self.players, player)
 end
+function Lobby:onTouch(player, part)
+    print(player:GetFullName() .. " was touched by " .. part:GetFullName())
+end
+function Lobby:new(copy)
+	copy = copy or {}
+	setmetatable(copy, self)
+	self.__index = self
+	self.players = Players:GetPlayers()
+	return copy
+end
+return Lobby
