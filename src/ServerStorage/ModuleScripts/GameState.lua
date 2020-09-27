@@ -8,6 +8,7 @@ local ModuleScripts = ServerStorage:WaitForChild("ModuleScripts")
 local GameSettings = require(ModuleScripts:WaitForChild("GameSettings"))
 
 local GameState = {}
+GameState.__index = GameState
 function GameState:update()
     wait(GameSettings.updateInterval)
     if self.predatorCount == 0 or self.preyCount == 0 then
@@ -60,8 +61,8 @@ function GameState:init(players)
     self.predatorCount = 1
 end
 function GameState.new(players)
-	self = setmetatable({}, GameState)
+	local self = setmetatable({}, GameState)
 	self:init(players)
-	return copy
+	return self
 end
 return GameState
