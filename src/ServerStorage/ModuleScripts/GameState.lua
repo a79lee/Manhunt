@@ -6,14 +6,13 @@ local ServerStorage = game:GetService("ServerStorage")
 -- Module Scripts
 local ModuleScripts = ServerStorage:WaitForChild("ModuleScripts")
 local GameSettings = require(ModuleScripts:WaitForChild("GameSettings"))
-local LobbyState = require(ModuleScripts:WaitForChild("LobbyState"))
-
 
 local GameState = {}
 function GameState:update()
     wait(GameSettings.updateInterval)
     if self.predatorCount == 0 or self.preyCount == 0 then
         print ("Return to Lobby")
+        local LobbyState = require(ModuleScripts:WaitForChild("LobbyState"))
         return LobbyState.new()
     else
         return self
@@ -52,7 +51,7 @@ function GameState:init(players)
     -- Choose a predator and assign teams
     print ("Game State Init")
     local k = math.random(1, #players)
-    for i,player in pairs(players) do
+    for i, player in pairs(players) do
         player.Team = (i == k) and Teams.Predator or Teams.Prey
         player.Neutral = false
     end

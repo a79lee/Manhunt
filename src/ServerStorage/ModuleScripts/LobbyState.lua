@@ -6,7 +6,6 @@ local ServerStorage = game:GetService("ServerStorage")
 -- Module Scripts
 local ModuleScripts = ServerStorage:WaitForChild("ModuleScripts")
 local GameSettings = require(ModuleScripts:WaitForChild("GameSettings"))
-local GameState = require(ModuleScripts:WaitForChild("GameState"))
 
 local LobbyState = {}
 function LobbyState:update()
@@ -16,6 +15,7 @@ function LobbyState:update()
 		return self
 	else
 		print ("starting new game")
+		local Game = require(ModuleScripts:WaitForChild("GameState"))
 		return GameState:new(self.players)
 	end
 end
@@ -32,7 +32,7 @@ function LobbyState:onTouch(player, part)
 end
 function LobbyState:init(players)
 	print ("Lobby Init")
-	for player in players do
+	for i, player in pairs(players) do
 		player.Neutral = true
 		player.Team = nil
 	end
