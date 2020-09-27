@@ -8,6 +8,7 @@ local ModuleScripts = ServerStorage:WaitForChild("ModuleScripts")
 local GameSettings = require(ModuleScripts:WaitForChild("GameSettings"))
 
 local LobbyState = {}
+LobbyState.__index = LobbyState
 function LobbyState:update()
 	wait(GameSettings.intermissionDuration)
 	if #self.players < GameSettings.minimumPlayers then
@@ -39,8 +40,8 @@ function LobbyState:init(players)
 	self.players = players
 end
 function LobbyState.new()
-	self = setmetatable({}, LobbyState)
+	local self = setmetatable({}, LobbyState)
 	self:init(Players:GetPlayers())
-	return copy
+	return self
 end
 return LobbyState
