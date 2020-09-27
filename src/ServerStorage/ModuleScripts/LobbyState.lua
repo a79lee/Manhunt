@@ -20,11 +20,11 @@ function LobbyState:update()
 	end
 end
 function LobbyState:onPlayerAdded(player)
-	print ("Player added to lobby")
+	print ("Player added to table")
 	table.insert(self.players, player)
 end
 function LobbyState:onPlayerRemoving(player)
-	print ("Player removed from lobby")
+	print ("Player removed from table")
 	table.remove(self.players, player)
 end
 function LobbyState:onTouch(player, part)
